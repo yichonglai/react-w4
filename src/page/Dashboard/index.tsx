@@ -1,13 +1,13 @@
-import {CITY_MAP} from './constant/china-main-city-map.ts';
+import { CITY_MAP } from './constant/china-main-city-map';
 import React from 'react';
 import axios from 'axios';
 import echarts from 'echarts';
 
-interface DashboardProps {};
-interface DashboardState {};
+interface DashboardProps { };
+interface DashboardState { };
 class Dashboard extends React.PureComponent<DashboardProps, DashboardState> {
   myChart: echarts.ECharts | undefined;
-  curMap: {mapCode: string; mapName: string} | undefined;
+  curMap: { mapCode: string; mapName: string } | undefined;
   curAreaName: string | undefined;
   preAreaName: string | undefined;
   mapStack: any[] = [];
@@ -22,7 +22,7 @@ class Dashboard extends React.PureComponent<DashboardProps, DashboardState> {
   }
   /**事件绑定 */
   eventBinding = () => {
-    const {myChart} = this;
+    const { myChart } = this;
     myChart!.on('georoam', (params: any) => {
       // console.log(this.myChart.convertFromPixel({seriesIndex: 0}, [params.originX, params.originY]));
       if ("zoom" in params) {
@@ -58,7 +58,7 @@ class Dashboard extends React.PureComponent<DashboardProps, DashboardState> {
   /**加载地图 */
   loadMap = (mapCode: string, mapName: string) => {
     this.myChart!.showLoading();
-    axios.get(`/static/china-main-city/${mapCode}.json`).then(res => {
+    axios.get(`/static/json/china-main-city/${mapCode}.json`).then(res => {
       this.myChart!.hideLoading();
       if (res.status === 200 && res.data) {
         /**颜色映射数据 */
@@ -93,7 +93,7 @@ class Dashboard extends React.PureComponent<DashboardProps, DashboardState> {
         }
         echarts.registerMap(mapName, res.data);
         const option: echarts.EChartOption = {
-          tooltip : {
+          tooltip: {
             show: false,
             trigger: 'item',
             formatter: '{b}：{c}'
@@ -107,44 +107,44 @@ class Dashboard extends React.PureComponent<DashboardProps, DashboardState> {
             dimension: 0,
             seriesIndex: 0,
             inRange: {
-              color: ['#eac736','#50a3ba'],
+              color: ['#eac736', '#50a3ba'],
             },
           }],
           toolbox: {
             show: true,
             x: 'center',
-            feature : {
-              dataView : {show: true, readOnly: false},
-              restore : {show: true},
-              saveAsImage : {show: true},
+            feature: {
+              dataView: { show: true, readOnly: false },
+              restore: { show: true },
+              saveAsImage: { show: true },
             }
           },
-          series : [
+          series: [
             {
-                name: mapName,
-                type: 'map',
-                map: mapName,
-                roam: true,
-                zoom: 1,
-                scaleLimit: {
-                  min: 0.3,
-                  max: 4
+              name: mapName,
+              type: 'map',
+              map: mapName,
+              roam: true,
+              zoom: 1,
+              scaleLimit: {
+                min: 0.3,
+                max: 4
+              },
+              left: 'center',
+              top: 'center',
+              itemStyle: {
+                normal: {
+                  label: {
+                    show: true,
+                    textStyle: {
+                      color: "#333"
+                    }
+                  }
                 },
-                left: 'center',
-                top: 'center',
-                itemStyle:{
-                    normal:{
-                        label:{
-                            show:true,
-                            textStyle: {
-                              color: "#333"
-                            }
-                        }
-                    },
-                    emphasis:{label:{show:true}}
-                },
-                markPoint,
-                data
+                emphasis: { label: { show: true } }
+              },
+              markPoint,
+              data
             }
           ]
         };
@@ -154,10 +154,10 @@ class Dashboard extends React.PureComponent<DashboardProps, DashboardState> {
           mapName: mapName
         };
       }
-    }, () => {this.myChart!.hideLoading();})
+    }, () => { this.myChart!.hideLoading(); })
   }
   render() {
-    return <div id="my-chart" style={{width: '100%', height: '900px'}}  />;
+    return <div id="my-chart" style={{ position: 'absolute', left: 0, right: 0, top: 80, bottom: 0 }} />;
   }
 }
 
