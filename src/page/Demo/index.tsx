@@ -18,7 +18,7 @@ class Demo extends React.PureComponent<DemoProps, DemoState> {
   render() {
     return (
       <div style={{ position: 'absolute', left: 0, right: 0, top: 80, bottom: 0 }}>
-        <div style={{ height: '300px' }}>
+        <div style={{ height: '650px' }}>
           <Map
             map={{ mapCode: '100000', mapName: 'china' }}
             points={this.state.p}
