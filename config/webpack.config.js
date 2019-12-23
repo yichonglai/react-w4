@@ -124,6 +124,9 @@ module.exports = {
       fix: true
     })
   ],
+  stats: {
+    assets: false 
+  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
     alias: {
