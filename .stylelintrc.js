@@ -16,6 +16,9 @@ module.exports = {
     "declaration-colon-space-before": 'never',
     "block-closing-brace-empty-line-before": 'never',
     "block-opening-brace-space-before": 'always',
-    "indentation": 'tab'
+    "indentation": [2, { 
+      "severity": "warning" 
+    }],
+    "no-descending-specificity": 'never'
   }
 };
