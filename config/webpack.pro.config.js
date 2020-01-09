@@ -43,6 +43,12 @@ module.exports = merge(common, {
                 mode: 'local',
                 localIdentName: '[hash:base64]',
                 context: path.resolve(__dirname, '../src'),
+                getLocalIdent: (context, localIdentName, localName) => {
+                  // 全局样式定义
+                  if (context.resourcePath.indexOf('assets/styles') !== -1) {
+                    return localName;
+                  }
+                },
               },
               importLoaders: 2,
             }
