@@ -5,32 +5,35 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  /**输入配置 */
+  /**入口配置，默认名称main */
   entry: [
     path.resolve(__dirname, '../src/index.tsx')
   ],
   /**输出配置 */
   output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: 'js/[name].[hash:5].bundle.js',
-    chunkFilename: 'js/[name].[chunkhash:5].bundle.js',
-    publicPath: '/'
+    path: path.resolve(__dirname, '../dist'), // 目标输出目录 path 的绝对路径。
+    filename: 'js/[name].[hash:5].bundle.js', // 输出文件文件名
+    chunkFilename: 'js/[name].[chunkhash:5].bundle.js', // 非入口(non-entry) chunk 文件的名称，「按需加载 chunk」的输出文件， chunkhash：基于每个 chunk 内容的 hash
+    publicPath: '' // 运行时基准 如：当将资源托管到 CDN 时
   },
-  /**提取公共代码 */
+  /**优化 */
   optimization: {
+    // 代码分离，提取公共代码, 对于动态导入模块，默认使用 webpack v4+ 提供的全新的通用分块策略
+    // 替代CommonsChunkPlugin 默认配置为最佳实践 可自定义
+    // 可不要
     splitChunks: {
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'all'
+          chunks: 'all' // 将选择哪些块进行优化。
         },
-        utils: { // 抽离自定义公共代码
+        utils: { // 抽离自定义公共代码 包括入口点之间共享的所有代码。
           test: /\.(js|tsx?)$/,
           chunks: 'initial',
           name: 'utils',
           minSize: 0// 只要超出0字节就生成一个新包
-        }
+        },
       },
     }
   },

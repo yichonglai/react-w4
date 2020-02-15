@@ -9,24 +9,20 @@ const common = require('./webpack.config');
 module.exports = merge(common, {
   mode: 'production',
   performance: {
-    hints: 'error',
+    hints: 'error', // 防止把体积巨大的 bundle 部署到生产环境，从而影响网页的性能。
     maxEntrypointSize: 4000000,
     maxAssetSize: 4000000,
   },
   // devtool: 'source-map',
   optimization: {
-    minimizer: [
+    // 告知 webpack 使用 TerserPlugin 压缩 bundle。
+    // production 模式下(mode)，这里默认是 true。
+    minimize: true,
+    minimizer: [ // 覆盖默认压缩工具
       new TerserJSPlugin({}),
-      new OptimizeCSSAssetsPlugin({})
+      new OptimizeCSSAssetsPlugin({}) // css压缩
     ]
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash:5].css",
-      chunkFilename: "css/[name].[contenthash:5].css"
-    }),
-    new CleanWebpackPlugin(),
-  ],
   module: {
     rules: [
       {
@@ -58,5 +54,12 @@ module.exports = merge(common, {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[contenthash:5].css",
+      chunkFilename: "css/[name].[contenthash:5].css"
+    }),
+    new CleanWebpackPlugin(),
+  ],
 })

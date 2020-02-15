@@ -6,10 +6,11 @@ const webpack = require('webpack');
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
+  // 性能 配置webpack如何展示性能提示
   performance: {
-    hints: false,
-    // maxEntrypointSize: 4000000,
-    // maxAssetSize: 1000000,
+    hints: "warning", // 提示类型
+    // maxEntrypointSize: 4000000, // 入口
+    // maxAssetSize: 1000000, // 任何资源
   },
   devServer: {
     port: 8083,
@@ -23,6 +24,7 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.(less|css)$/,
+        // △
         use: [
           'style-loader',
           {
