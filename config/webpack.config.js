@@ -125,7 +125,7 @@ module.exports = {
     })
   ],
   stats: {
-    assets: false 
+    assets: false
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],

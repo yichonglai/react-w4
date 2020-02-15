@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.config.js --progress --display-modules",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.pro.config.js --progress --display-modules",
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.pro.config.js --progress",
     "build1": "webpack --config ./config/webpack.pro.config.js"
   },
   "author": "",
