@@ -1,6 +1,6 @@
 const presets = [
   [
-    "@babel/env",
+    "@babel/preset-env",
     {
       // targets: {
       //   edge: "17",
@@ -8,11 +8,14 @@ const presets = [
       //   chrome: "67",
       //   safari: "11.1",
       // },
-      useBuiltIns: "usage",
+      useBuiltIns: "usage", // This option configures how @babel/preset-env handles polyfills. 将会按需引入babel/polyfill (corejs)。
       corejs: 3
     },
   ],
-  "@babel/preset-react"
+  "@babel/preset-react" // https://www.babeljs.cn/docs/babel-preset-react
 ];
+// 'transform-runtime' 插件告诉 Babel要引用 runtime 来代替注入(辅助代码)。
+// Babel 对一些公共方法使用了非常小的辅助代码，比如 _extend。默认情况下会被添加到每一个需要它的文件中
+const plugins = ["@babel/plugin-transform-runtime"];
 
-module.exports = { presets };
+module.exports = { presets, plugins };

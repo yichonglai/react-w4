@@ -17,7 +17,7 @@
     "module": true,
     "require": true
   },
-  "env": {
+  "env": { // 定义执行环境
     "browser": true,
     "es6": true,
     "node": true,

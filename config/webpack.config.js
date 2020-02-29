@@ -38,7 +38,7 @@ module.exports = {
     }
   },
   module: {
-    /**加载器配置 */
+    /**加载器配置 ⬆️ */
     rules: [
       {
         test: /\.(png|jpe?g|svg|gif)$/,
@@ -71,9 +71,15 @@ module.exports = {
         use: ['xml-loader']
       },
       {
-        test: /\.(js|jsx)$/,
-        enforce: "pre",
+        test: /\.jsx?$/,
+        // enforce: "pre", // 调整rules调用顺序 1、pre 优先处理 2、normal 正常处理（默认）3、inline 其次处理 post 最后处理
         use: [
+          {
+            loader: 'babel-loader', // 转es5 + polyfill
+            options: {
+              cacheDirectory: true,
+            }
+          },
           {
             loader: 'eslint-loader',
             options: {
@@ -84,25 +90,23 @@ module.exports = {
             }
           }
         ],
+        exclude: /node_modules/,
         include: path.resolve(__dirname, '../src'),
       },
       {
         test: /\.tsx?$/,
-        use: ['ts-loader'],
-        // exclude: /node_modules/
-        include: path.resolve(__dirname, '../src'),
-      },
-      {
-        test: /\.(js|jsx)$/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: 'babel-loader', // 转es5 + polyfill
             options: {
-              cacheDirectory: true,
+              cacheDirectory: true, // 缓存 loader 的执行结果，之后的 webpack 构建，将会尝试读取缓存，来避免在每次执行时，可能产生的、高性能消耗的 Babel 重新编译过程
+              // cacheCompression: true, // 默认值为 true。项目文件多的时候可以置false
             }
-          }
+          },
+          'ts-loader' // 转es6
         ],
-        include: path.resolve(__dirname, '../src')
+        exclude: /node_modules/,
+        include: path.resolve(__dirname, '../src'),
       },
     ]
   },
