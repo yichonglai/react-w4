@@ -1,7 +1,7 @@
 const merge = require('webpack-merge');
-const path = require('path');
 const common = require('./webpack.config');
 const webpack = require('webpack');
+const { ENV_CONFIG } = require('./base.config');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -13,11 +13,12 @@ module.exports = merge(common, {
     // maxAssetSize: 1000000, // 任何资源
   },
   devServer: {
-    port: 8083,
-    contentBase: path.join(__dirname, '../dist'),
+    port: ENV_CONFIG.port,
+    contentBase: ENV_CONFIG.outputPath,
     compress: true,
     hot: true,
     historyApiFallback: true,
+    publicPath: ENV_CONFIG.publicPath,
     // open: true,
   },
   module: {
@@ -33,7 +34,7 @@ module.exports = merge(common, {
               modules: {
                 mode: 'local',
                 localIdentName: '[path][name]-[local]-[hash:base64:5]',
-                context: path.resolve(__dirname, '../src'),
+                context: ENV_CONFIG.sourcePath,
                 getLocalIdent: (context, localIdentName, localName) => {
                   // 全局样式定义
                   if (context.resourcePath.indexOf('assets/styles') !== -1) {
@@ -48,7 +49,7 @@ module.exports = merge(common, {
           "postcss-loader",
           'less-loader'
         ],
-        include: path.resolve(__dirname, '../src')
+        include: ENV_CONFIG.sourcePath
       }
     ]
   },

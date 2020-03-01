@@ -8,14 +8,14 @@ const { ENV_CONFIG } = require('./base.config');
 module.exports = {
   /**入口配置，默认名称main */
   entry: [
-    path.resolve(__dirname, '../src/index.tsx')
+    path.resolve(ENV_CONFIG.sourcePath, './index.tsx')
   ],
   /**输出配置 */
   output: {
-    path: path.resolve(__dirname, '../dist'), // 目标输出目录 path 的绝对路径。
+    path: ENV_CONFIG.outputPath, // 目标输出目录 path 的绝对路径。
     filename: 'js/[name].[hash:5].bundle.js', // 输出文件文件名
     chunkFilename: 'js/[name].[chunkhash:5].bundle.js', // 非入口(non-entry) chunk 文件的名称，「按需加载 chunk」的输出文件， chunkhash：基于每个 chunk 内容的 hash
-    publicPath: '' // 运行时基准 如：当将资源托管到 CDN 时
+    publicPath: ENV_CONFIG.publicPath // 运行时基准, 影响资源生成路径 如：当将资源托管到 CDN 时
   },
   /**优化 */
   optimization: {
@@ -45,7 +45,7 @@ module.exports = {
     rules: [
       {
         test: /\.(png|jpe?g|svg|gif)$/,
-        include: path.resolve(__dirname, '../src'),
+        include: ENV_CONFIG.sourcePath,
         use: [
           {
             loader: 'url-loader',
@@ -94,7 +94,7 @@ module.exports = {
           }
         ],
         exclude: /node_modules/,
-        include: path.resolve(__dirname, '../src'),
+        include: ENV_CONFIG.sourcePath,
       },
       {
         test: /\.tsx?$/,
@@ -109,13 +109,12 @@ module.exports = {
           'ts-loader' // 转es6
         ],
         exclude: /node_modules/,
-        include: path.resolve(__dirname, '../src'),
+        include: ENV_CONFIG.sourcePath,
       },
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: path.resolve(__dirname, '../dist/index.html'),
       template: path.resolve(__dirname, '../index.html'),
     }),
     // Copies individual files or entire directories, which already exist, to the build directory.
@@ -131,7 +130,7 @@ module.exports = {
     new ManifestPlugin(),
     ...ENV_CONFIG.stylelint_enable ? [new StylelintPlugin({
       emitWarning: true,
-      context: path.resolve(__dirname, '../src'),
+      context: ENV_CONFIG.sourcePath,
       configFile: path.resolve(__dirname, '../.stylelintrc.js'),
       files: '**/*.l?(e|c)ss', // Specify the glob pattern for finding files. Must be relative to options.context.
       failOnError: false,
@@ -150,10 +149,10 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
     alias: {
-      '@assets': path.resolve(__dirname, '../src/assets/'),
-      '@components': path.resolve(__dirname, '../src/components/'),
-      '@page': path.resolve(__dirname, '../src/page/'),
-      '@router': path.resolve(__dirname, '../src/router/'),
+      '@assets': path.resolve(ENV_CONFIG.sourcePath, './assets/'),
+      '@components': path.resolve(ENV_CONFIG.sourcePath, './components/'),
+      '@page': path.resolve(ENV_CONFIG.sourcePath, './page/'),
+      '@router': path.resolve(ENV_CONFIG.sourcePath, './router/'),
     }
   }
 };

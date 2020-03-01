@@ -5,6 +5,7 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const common = require('./webpack.config');
+const { ENV_CONFIG } = require('./base.config');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -27,7 +28,7 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.(less|css)$/,
-        include: path.resolve(__dirname, '../src'),
+        include: ENV_CONFIG.sourcePath,
         use: [
           {
             loader: MiniCssExtractPlugin.loader, // 替代style-loader
@@ -38,7 +39,7 @@ module.exports = merge(common, {
               modules: {
                 mode: 'local',
                 localIdentName: '[hash:base64]',
-                context: path.resolve(__dirname, '../src'),
+                context: ENV_CONFIG.sourcePath,
                 getLocalIdent: (context, localIdentName, localName) => {
                   // 全局样式定义
                   if (context.resourcePath.indexOf('assets/styles') !== -1) {
