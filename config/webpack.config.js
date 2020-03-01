@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { ENV_CONFIG } = require('./base.config');
 
 module.exports = {
   /**入口配置，默认名称main */
@@ -24,16 +25,18 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         vendors: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
           name: 'vendors',
-          chunks: 'all' // 将选择哪些块进行优化。
+          chunks: 'all', // 将选择哪些块进行优化。
+          // reuseExistingChunk: true, // reuse common chunk
+          // enforce: true, // always create chunks for this cache group.
         },
-        utils: { // 抽离自定义公共代码 包括入口点之间共享的所有代码。
-          test: /\.(js|tsx?)$/,
-          chunks: 'initial',
-          name: 'utils',
-          minSize: 0// 只要超出0字节就生成一个新包
-        },
+        // utils: { // 抽离自定义公共代码 包括入口点之间共享的所有代码。
+        //   test: /\.(jsx?|tsx?)$/,
+        //   chunks: 'initial',
+        //   name: 'utils',
+        //   minSize: 0// 只要超出0字节就生成一个新包
+        // },
       },
     }
   },
@@ -115,25 +118,34 @@ module.exports = {
       filename: path.resolve(__dirname, '../dist/index.html'),
       template: path.resolve(__dirname, '../index.html'),
     }),
+    // Copies individual files or entire directories, which already exist, to the build directory.
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
         to: 'static',
-        ignore: ['.*']
+        ignore: ['.*'],
+        cache: true,
       }
     ]),
+    // Webpack plugin for generating an asset manifest (manifest.json) What does it do?.
     new ManifestPlugin(),
-    new StylelintPlugin({
+    ...ENV_CONFIG.stylelint_enable ? [new StylelintPlugin({
       emitWarning: true,
       context: path.resolve(__dirname, '../src'),
-      files: '**/*.l?(e|c)ss',
+      configFile: path.resolve(__dirname, '../.stylelintrc.js'),
+      files: '**/*.l?(e|c)ss', // Specify the glob pattern for finding files. Must be relative to options.context.
       failOnError: false,
       quiet: true,
-      fix: true
-    })
+      fix: true,
+      // "scss"| "less" | "sugarss" 用来指定语法规则，不指定的情况下通过文件后缀自动识别：.less，.scss，.sss。
+      // syntax: 'less'
+    })] : [],
+
   ],
+  // 控制台统计/构建信息
   stats: {
-    assets: false
+    assets: false,
+    children: false,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],

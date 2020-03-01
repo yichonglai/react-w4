@@ -19,7 +19,7 @@ module.exports = merge(common, {
     // production 模式下(mode)，这里默认是 true。
     minimize: true,
     minimizer: [ // 覆盖默认压缩工具
-      new TerserJSPlugin({}),
+      new TerserJSPlugin({}), // js压缩
       new OptimizeCSSAssetsPlugin({}) // css压缩
     ]
   },
@@ -30,7 +30,7 @@ module.exports = merge(common, {
         include: path.resolve(__dirname, '../src'),
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: MiniCssExtractPlugin.loader, // 替代style-loader
           },
           {
             loader: 'css-loader',
@@ -56,6 +56,7 @@ module.exports = merge(common, {
     ]
   },
   plugins: [
+    // extracts CSS into separate files, only on production
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash:5].css",
       chunkFilename: "css/[name].[contenthash:5].css"
