@@ -1,4 +1,3 @@
-const path = require('path');
 const merge = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserJSPlugin = require("terser-webpack-plugin");
@@ -28,7 +27,6 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.(less|css)$/,
-        include: ENV_CONFIG.sourcePath,
         use: [
           {
             loader: MiniCssExtractPlugin.loader, // 替代style-loader
@@ -39,10 +37,10 @@ module.exports = merge(common, {
               modules: {
                 mode: 'local',
                 localIdentName: '[hash:base64]',
-                context: ENV_CONFIG.sourcePath,
+                // context: ENV_CONFIG.sourcePath,
                 getLocalIdent: (context, localIdentName, localName) => {
                   // 全局样式定义
-                  if (context.resourcePath.indexOf('assets/styles') !== -1) {
+                  if (ENV_CONFIG.cssModulesExclude.some(path => context.resourcePath.indexOf(path) !== -1)) {
                     return localName;
                   }
                 },
@@ -51,7 +49,12 @@ module.exports = merge(common, {
             }
           },
           "postcss-loader",
-          "less-loader",
+          {
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true
+            }
+          }
         ]
       }
     ]

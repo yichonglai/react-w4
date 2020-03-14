@@ -19,7 +19,7 @@ module.exports = merge(common, {
     hot: true,
     historyApiFallback: true,
     publicPath: ENV_CONFIG.publicPath,
-    // open: true,
+    open: true,
   },
   module: {
     rules: [
@@ -34,10 +34,10 @@ module.exports = merge(common, {
               modules: {
                 mode: 'local',
                 localIdentName: '[path][name]-[local]-[hash:base64:5]',
-                context: ENV_CONFIG.sourcePath,
+                // context: ENV_CONFIG.sourcePath,
                 getLocalIdent: (context, localIdentName, localName) => {
                   // 全局样式定义
-                  if (context.resourcePath.indexOf('assets/styles') !== -1) {
+                  if (ENV_CONFIG.cssModulesExclude.some(path => context.resourcePath.indexOf(path) !== -1)) {
                     return localName;
                   }
                 },
@@ -47,9 +47,13 @@ module.exports = merge(common, {
             }
           },
           "postcss-loader",
-          'less-loader'
+          {
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true
+            }
+          }
         ],
-        include: ENV_CONFIG.sourcePath
       }
     ]
   },

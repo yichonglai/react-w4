@@ -1,11 +1,13 @@
 const path = require('path');
 const ENV_CONFIG = {
-  /**是否启用stylelint */
+  /**Enable/disable stylelint */
   stylelint_enable: true,
   publicPath: '',
   outputPath: path.resolve(__dirname, '../dist'),
   sourcePath: path.resolve(__dirname, '../src'),
-  // 开发端口
+  /**cssModule ignore path */
+  cssModulesExclude: ['assets/styles', 'node_modules'],
+  /**development port */
   port: 8083
 };
 
