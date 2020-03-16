@@ -38,6 +38,9 @@
       "@assets/*": [
         "./src/assets/*"
       ],
+      "@redux/*": [
+        "./src/redux/*"
+      ],
     }
   },
   "exclude": [

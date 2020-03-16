@@ -153,6 +153,7 @@ module.exports = {
       '@components': path.resolve(ENV_CONFIG.sourcePath, './components/'),
       '@page': path.resolve(ENV_CONFIG.sourcePath, './page/'),
       '@router': path.resolve(ENV_CONFIG.sourcePath, './router/'),
+      '@redux': path.resolve(ENV_CONFIG.sourcePath, './redux/'),
     }
   }
 };
