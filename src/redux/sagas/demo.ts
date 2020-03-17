@@ -7,5 +7,7 @@ function* increment() {
 
 /**A saga */
 export default function* watchIncrement() {
+  console.log(222);
+  
   yield takeEvery('INCREMENT_ASYNC', increment)
 }

@@ -15,7 +15,6 @@ const reducer: Reducer<IState> = (state = initState, action) => {
     case 'INCREMENT':
       ++ state.count;
       return {...state};
-      break;
     default:
       return state;
   }
