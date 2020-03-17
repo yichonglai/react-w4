@@ -1,17 +1,11 @@
 import {compose} from 'redux';
-import {DispatchProp} from 'react-redux';
-// import {IRootState} from "@redux/reducers";
 
 declare global {
   // redux类型定义
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
-  type DispatchProp = DispatchProp;
-  interface Action {
-    type: string;
-  }
-
+  type RootState = import('@redux/reducers').IRootState;
 
   declare module "*.xml" {
     const content: any;

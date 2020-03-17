@@ -1,9 +1,10 @@
 import {combineReducers} from 'redux';
 import demo from './demo';
 
-const reducers = {
+/**single entry point to combine all reducers at once */
+const rootReducer = combineReducers({
   demo
-}
-// RootSate 问题
-/**single entry point to bind all reducers at once ---reducers */
-export default combineReducers(reducers);
+});
+export type IRootState = ReturnType<typeof rootReducer>
+
+export default rootReducer;
