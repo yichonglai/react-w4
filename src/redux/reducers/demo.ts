@@ -1,4 +1,4 @@
-import {Reducer} from 'redux';
+import { Reducer } from 'redux';
 
 /**类型定义 */
 export interface IState {
@@ -13,8 +13,8 @@ const initState: IState = {
 const reducer: Reducer<IState> = (state = initState, action) => {
   switch (action.type) {
     case 'INCREMENT':
-      ++ state.count;
-      return {...state};
+      return { ...state, count: state.count + 1 };
+      break;
     default:
       return state;
   }
