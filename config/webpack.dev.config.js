@@ -7,11 +7,11 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   // 性能 配置webpack如何展示性能提示
-  performance: {
-    hints: "warning", // 提示类型
-    // maxEntrypointSize: 4000000, // 入口
-    // maxAssetSize: 1000000, // 任何资源
-  },
+  // performance: {
+  //   hints: "warning", // 提示类型
+  //   maxEntrypointSize: 4000000, // 入口
+  //   maxAssetSize: 1000000, // 任何资源
+  // },
   devServer: {
     port: ENV_CONFIG.port,
     contentBase: ENV_CONFIG.outputPath,
