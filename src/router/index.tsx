@@ -4,6 +4,7 @@ import React, { Suspense, lazy } from 'react';
 import ErrorBoundary from '@components/ErrorBoundary';
 import history from './history';
 
+// React16.6 lazy/Suspense 处理异步渲染场景-代码分割/按需加载
 const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ '@page/Dashboard'));
 const Demo = lazy(() => import(/* webpackChunkName: "Demo" */ '@page/Demo'));
 const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ '@page/NotFound'));

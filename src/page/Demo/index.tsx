@@ -1,8 +1,8 @@
 import React from 'react';
 
-interface DemoProps { };
-interface DemoState { };
-class Demo extends React.PureComponent<DemoProps, DemoState> {
+interface IProps { };
+interface IState { };
+class Demo extends React.PureComponent<IProps, IState> {
   render() {
     return <div>Demo</div>;
   }
