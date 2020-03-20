@@ -1,6 +1,11 @@
-import { delay, put, takeEvery } from 'redux-saga/effects'
+import { delay, put, takeEvery } from 'redux-saga/effects';
 
-function* increment() {
+import {IAction} from '@redux/types';
+
+function* increment(action: IAction) {
+  console.log(action);
+  console.log(arguments);
+  
   yield delay(2000);
   yield put({ type: 'INCREMENT' })
 }

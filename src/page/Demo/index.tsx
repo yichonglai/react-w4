@@ -10,7 +10,7 @@ class Demo extends React.PureComponent<IProps & DispatchProp, IState> {
   increment = () => {
     const {dispatch} = this.props;
     // 需要一个action生成器 - action creator
-    dispatch({type: 'INCREMENT_ASYNC'})
+    dispatch({type: 'INCREMENT_ASYNC', payload: 2});
   }
   render() {
     const {count} = this.props;

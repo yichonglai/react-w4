@@ -3,10 +3,11 @@ import React, { Suspense, lazy } from 'react';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import history from './history';
+import lazyConstructor from '@utils/lazy';
 
-const Dashboard = lazy(() => import(/* webpackChunkName: "Dashboard" */ '@page/Dashboard'));
-const Demo = lazy(() => import(/* webpackChunkName: "Demo" */ '@page/Demo'));
-const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ '@page/NotFound'));
+const Dashboard = lazyConstructor('Dashboard');
+const Demo = lazyConstructor('Demo');
+const NotFound = lazyConstructor('NotFound');
 const router = () => {
   return (
     <Router history={history}>

@@ -41,6 +41,9 @@
       "@redux/*": [
         "./src/redux/*"
       ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
     }
   },
   "exclude": [
