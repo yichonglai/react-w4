@@ -1,5 +1,5 @@
 import { AnyAction, Reducer } from 'redux';
-import {IAction, IModel} from '@redux/types';
+import { IAction, IModel } from '@redux/types';
 
 /**类型定义 */
 export interface IState {
@@ -13,7 +13,8 @@ const model: IModel<IState> = {
   },
   effects: {
     *increment(action: IAction) {
-      
+      console.log(111);
+
     }
   },
   reducers: {

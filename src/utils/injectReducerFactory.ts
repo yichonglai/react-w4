@@ -1,10 +1,10 @@
-import {Reducer, Store, combineReducers} from 'redux';
+import { Reducer, Store, combineReducers } from 'redux';
 
-export const createReducer = (reducerObj: {[key: string]: Reducer}) => combineReducers({...reducerObj});
+// export const createReducer = (reducerObj: {[key: string]: Reducer}) => combineReducers({...reducerObj});
 
-export const injectReducerFactory = (store: Store & {asyncReducer?: {[key: string]: Reducer}}) => (key: string, reducer: Reducer) => {
+export const injectReducerFactory = (store: Store & { asyncReducer?: { [key: string]: Reducer } }) => (key: string, reducer: Reducer) => {
   if (!store.asyncReducer) store.asyncReducer = {};
   if (Reflect.has(store.asyncReducer, key) && store.asyncReducer[key] === reducer) return;
   store.asyncReducer[key] = reducer;
-  store.replaceReducer(createReducer(store.asyncReducer));
+  store.replaceReducer(combineReducers(store.asyncReducer));
 }

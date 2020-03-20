@@ -1,4 +1,4 @@
-import {DispatchProp, connect} from 'react-redux';
+import { DispatchProp, connect } from 'react-redux';
 
 import React from 'react';
 
@@ -8,12 +8,12 @@ interface IProps {
 interface IState { };
 class Demo extends React.PureComponent<IProps & DispatchProp, IState> {
   increment = () => {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     // 需要一个action生成器 - action creator
-    dispatch({type: 'INCREMENT_ASYNC', payload: 2});
+    dispatch({ type: 'increment', payload: 2 });
   }
   render() {
-    const {count} = this.props;
+    const { count } = this.props;
     console.log(this.props);
     return (
       <div>

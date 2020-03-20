@@ -1,9 +1,9 @@
-import {combineReducers} from 'redux';
-import demo from './demo';
+import { combineReducers } from 'redux';
+// import demo from './demo';
 
 /**single entry point to combine all reducers at once */
 const rootReducer = combineReducers({
-  demo
+  // demo
 });
 export type IRootState = ReturnType<typeof rootReducer>
 
