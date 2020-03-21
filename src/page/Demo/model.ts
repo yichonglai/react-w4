@@ -12,14 +12,13 @@ const model: IModel<IState> = {
     count: 0
   },
   effects: {
-    *increment(action: IAction) {
-      console.log(111);
-
+    *svae_async() {
+      console.log('gggggggggggggggg');
     }
   },
   reducers: {
-    save(state: IState, action: AnyAction): IState {
-      return { ...state, ...action.payload };
+    save(state, action) {
+      return { ...state, count: state.count + 1 };
     },
   }
 }

@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from 'react';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import history from './history';
-import lazyConstructor from '@utils/lazy';
+import { lazyConstructor } from '@redux/index';
 
 const Dashboard = lazyConstructor('Dashboard');
 const Demo = lazyConstructor('Demo');

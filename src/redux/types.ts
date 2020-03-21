@@ -1,13 +1,18 @@
-import { AnyAction, Reducer } from 'redux';
+import { AnyAction, Reducer, Store } from 'redux';
+import * as effectsFactory from 'redux-saga/effects';
 
-import {Saga} from 'redux-saga';
+import { Saga } from 'redux-saga';
 
+export type IReducer<S = any, A = AnyAction> = (
+  state: S,
+  action: A
+) => S
 export interface IModel<S = any> {
   namespace: string;
   state: S;
-  effects: {[effect: string]: Saga},
-  // reducers: {[reducer: string]: Reducer<S, AnyAction>}
-  reducers: {[reducer: string]: Reducer}
+  effects: { [effect: string]: Saga<[AnyAction, typeof effectsFactory]> },
+  reducers: { [reducer: string]: IReducer<S> }
 }
 
-export type IAction = AnyAction & {payload: any}; 
+export type IAction = AnyAction & { payload: any };
+export type IStore = Store & { asyncReducer?: { [key: string]: Reducer } }

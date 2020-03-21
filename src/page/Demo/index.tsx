@@ -10,7 +10,7 @@ class Demo extends React.PureComponent<IProps & DispatchProp, IState> {
   increment = () => {
     const { dispatch } = this.props;
     // 需要一个action生成器 - action creator
-    dispatch({ type: 'increment', payload: 2 });
+    dispatch({ type: 'global/increment_async', payload: 2 });
   }
   render() {
     const { count } = this.props;
@@ -24,9 +24,9 @@ class Demo extends React.PureComponent<IProps & DispatchProp, IState> {
   }
 }
 
-const mapStateToProps: (state: RootState) => IProps = state => {
+const mapStateToProps: (state: any) => IProps = state => {
   return {
-    count: state.demo.count
+    count: state.global.count
   };
 };
 export default connect(mapStateToProps)(Demo);
