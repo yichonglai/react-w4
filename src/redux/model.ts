@@ -17,7 +17,7 @@ const model: IModel<IState> = {
     *increment_async(action, { delay, put }) {
       console.log('eeeeeeeeeeeeee');
 
-      yield delay(2000);
+      // yield delay(2000);
       yield put({ type: 'global/increment' });
     }
   },

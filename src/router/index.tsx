@@ -1,9 +1,9 @@
 import { Route, Router, Switch } from 'react-router-dom';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import history from './history';
-import { lazyConstructor } from '@redux/index';
+import lazyConstructor from '@redux/lazyConstructor';
 
 const Dashboard = lazyConstructor('Dashboard');
 const Demo = lazyConstructor('Demo');
