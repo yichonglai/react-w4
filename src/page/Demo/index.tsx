@@ -14,7 +14,6 @@ class Demo extends React.PureComponent<IProps & DispatchProp, IState> {
   }
   render() {
     const { count } = this.props;
-    console.log(this.props);
     return (
       <div>
         <button onClick={this.increment}>Increment_async</button>

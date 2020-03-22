@@ -1,7 +1,21 @@
 import { AnyAction, Reducer, combineReducers } from 'redux';
+import { PuttableChannel } from 'redux-saga';
 import * as effectsFactory from 'redux-saga/effects';
+import { IO } from '@redux-saga/symbols'
 import { IModel, IStore } from './types';
 
+/**
+ * makeEffect
+ * @param type 
+ * @param payload 
+ */
+const makeEffect = (type: string, payload: { channel?: PuttableChannel<AnyAction>, action: AnyAction }) => ({
+  // '@@redux-saga/IO': true,
+  [IO]: true,
+  combinator: false,
+  type,
+  payload,
+})
 /**
  * 合并reducers
  * @param reducers 
@@ -23,27 +37,23 @@ export const mergeReducers = (reducers: IModel['reducers'], initState: IModel['s
  * @param namespace
  */
 export const mergeSagas = (effects: IModel['effects'], namespace: IModel['namespace']) => {
+  const put: any = function () {
+    let channel = arguments[0];
+    let action = arguments[1];
+    if (!action) {
+      action = channel;
+      channel = undefined;
+    }
+    if (action.type.indexOf('/') === -1) {
+      action.type = `${namespace}/${action.type}`;
+    }
+    return makeEffect(effectsFactory.effectTypes.PUT, { channel, action });
+  }
   function* rootSaga() {
     const effectKeys = Object.keys(effects);
-    // // 得重构
-    // const put: typeof effectsFactory.put = (a, b) => {
-    //   const args = arguments;
-    //   if (args[1]) {
-    //     if (args[1].type.indexof('/') === -1) {
-    //       return effectsFactory.put(args[0], {...args[1], type: `${namespace}/${args[1].type}`});
-    //     }
-    //     return effectsFactory.put(args[0], args[1]);
-    //   } else {
-    //     if (args[0].type.indexof('/') === -1) {
-    //       return effectsFactory.put({ ...args[0], type: `${namespace}/${args[0].type}` });
-    //     }
-    //     return effectsFactory.put(args[0]);
-    //   }
-    // }
-
     for (let i = 0, len = effectKeys.length; i < len; i++) {
       function* worker(action: AnyAction) {
-        yield effectsFactory.fork(effects[effectKeys[i]], action, effectsFactory);
+        yield effectsFactory.fork(effects[effectKeys[i]], action, { ...effectsFactory, put });
       }
       yield effectsFactory.takeEvery(`${namespace}/${effectKeys[i]}`, worker);
     }
@@ -61,3 +71,4 @@ export const injectReducerFactory = (store: IStore) => (key: string, reducer: Re
   store.replaceReducer(combineReducers(store.asyncReducer));
 }
 
+// 参考Api：redux --> redux-saga --> dva --> Yep ； vue-router路由配置格式：配置型路由； electron：工作需要

@@ -1,6 +1,5 @@
 import { AnyAction, Reducer, Store } from 'redux';
 import * as effectsFactory from 'redux-saga/effects';
-
 import { Saga } from 'redux-saga';
 
 export type IReducer<S = any, A = AnyAction> = (

@@ -15,14 +15,12 @@ const model: IModel<IState> = {
   },
   effects: {
     *increment_async(action, { delay, put }) {
-      console.log('eeeeeeeeeeeeee');
-
-      // yield delay(2000);
-      yield put({ type: 'global/increment' });
+      yield delay(2000);
+      yield put({ type: 'save' });
     }
   },
   reducers: {
-    increment(state, action) {
+    save(state, action) {
       return { ...state, count: state.count + 1 };
     }
   }
