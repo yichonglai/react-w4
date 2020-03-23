@@ -1,4 +1,4 @@
-import * as effectsFactory from 'redux-saga/effects';
+import * as effects from 'redux-saga/effects';
 
 import { AnyAction, Reducer, Store } from 'redux';
 
@@ -13,6 +13,6 @@ export type IReducer<S = any, A = IAction> = (
 export interface IModel<S = any, A = IAction> {
   namespace: string;
   state: S;
-  effects: { [effect: string]: Saga<[A, typeof effectsFactory]> },
+  effects: { [effect: string]: Saga<[A, typeof effects]> },
   reducers: { [reducer: string]: IReducer<S> }
 }
