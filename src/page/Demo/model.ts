@@ -11,13 +11,13 @@ const model: IModel<IState> = {
     list: []
   },
   effects: {
-    *push_async({payload}, {delay, put}) {
+    *push_async({ payload }, { delay, put }) {
       yield delay(500);
-      yield put({type: 'push', payload})
-    } 
+      yield put({ type: 'push', payload })
+    }
   },
   reducers: {
-    push(state, {payload}) {
+    push(state, { payload }) {
       return { ...state, list: [...state.list, payload] };
     },
   }
