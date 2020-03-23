@@ -1,7 +1,8 @@
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
-import createSagaMiddleware from 'redux-saga';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { mergeReducers, mergeSagas } from './utils';
+
 import { IStore } from './types';
+import createSagaMiddleware from 'redux-saga';
 import model from './model';
 
 /**

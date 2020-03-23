@@ -1,24 +1,24 @@
-import { AnyAction, Reducer } from 'redux';
-import { IAction, IModel } from '@redux/types';
+import { IModel } from '@redux/types';
 
 /**类型定义 */
 export interface IState {
-  count: number;
+  list: number[];
 }
 
 const model: IModel<IState> = {
   namespace: 'demo',
   state: {
-    count: 0
+    list: []
   },
   effects: {
-    *svae_async() {
-      console.log('gggggggggggggggg');
-    }
+    *push_async({payload}, {delay, put}) {
+      yield delay(500);
+      yield put({type: 'push', payload})
+    } 
   },
   reducers: {
-    save(state, action) {
-      return { ...state, count: state.count + 1 };
+    push(state, {payload}) {
+      return { ...state, list: [...state.list, payload] };
     },
   }
 }

@@ -1,8 +1,10 @@
-import { AnyAction, Reducer, combineReducers } from 'redux';
-import { PuttableChannel } from 'redux-saga';
 import * as effectsFactory from 'redux-saga/effects';
+
+import { AnyAction, Reducer, combineReducers } from 'redux';
+import { IAction, IModel, IReducer, IStore } from './types';
+
 import { IO } from '@redux-saga/symbols'
-import { IModel, IStore } from './types';
+import { PuttableChannel } from 'redux-saga';
 
 /**
  * makeEffect
@@ -22,8 +24,8 @@ const makeEffect = (type: string, payload: { channel?: PuttableChannel<AnyAction
  * @param initState 
  * @param namespace
  */
-export const mergeReducers = (reducers: IModel['reducers'], initState: IModel['state'], namespace: IModel['namespace']) => {
-  return (state = initState, action: AnyAction) => {
+export const mergeReducers = <S = any, A extends AnyAction = IAction>(reducers: IModel<S, A>['reducers'], initState: IModel<S, A>['state'], namespace: IModel<S, A>['namespace']): IReducer<S, A> => {
+  return (state = initState, action: IAction) => {
     const actualReducers: IModel['reducers'] = {};
     Object.keys(reducers).forEach(key => {
       actualReducers[`${namespace}/${key}`] = reducers[key];

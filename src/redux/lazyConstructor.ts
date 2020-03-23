@@ -1,7 +1,8 @@
-import { lazy } from 'react';
-import { mergeReducers, mergeSagas, injectReducerFactory } from './utils';
+import { injectReducerFactory, mergeReducers, mergeSagas } from './utils';
 import store, { sagaMiddleware } from './index';
+
 import { IModel } from './types';
+import { lazy } from 'react';
 
 /**
  * 异步数据模型绑定
@@ -19,9 +20,14 @@ export const asyncModel = (model: IModel) => {
 const lazyConstructor = (pageName: string) => lazy(() => {
   const page = () => import(/* webpackChunkName: "[request]" */ `@page/${pageName}`);
   const model = () => import(/* webpackChunkName: "[request]" */ `@page/${pageName}/model`).catch(() => null);
-  return Promise.all([page(), model()]).then(ret => {
-    ret[1] && asyncModel(ret[1].default || ret[1]);
-    return ret[0];
+  return Promise.all([page(), model()]).then(res => {
+    if (res[1]) {
+      const temModel = res[1].default || res[1];
+      // 默认命名空间 pageName
+      (!temModel.namespace || temModel.namespace.trim()) ? false : (temModel.namespace = pageName);
+      asyncModel(temModel)
+    }
+    return res[0];
   });
 });
 

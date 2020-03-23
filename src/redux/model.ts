@@ -1,5 +1,4 @@
-import { AnyAction, Reducer } from 'redux';
-import { IAction, IModel } from './types';
+import { IModel } from './types';
 
 /**类型定义 */
 export interface IState {
@@ -15,7 +14,7 @@ const model: IModel<IState> = {
   },
   effects: {
     *increment_async(action, { delay, put }) {
-      yield delay(2000);
+      yield delay(1000);
       yield put({ type: 'save' });
     }
   },
