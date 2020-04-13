@@ -8,11 +8,11 @@ const { ENV_CONFIG } = require('./base.config');
 
 module.exports = merge(common, {
   mode: 'production',
-  performance: {
-    hints: 'error', // 防止把体积巨大的 bundle 部署到生产环境，从而影响网页的性能。
-    maxEntrypointSize: 4000000,
-    maxAssetSize: 4000000,
-  },
+  // performance: {
+  //   hints: 'error', // 防止把体积巨大的 bundle 部署到生产环境，从而影响网页的性能。
+  //   maxEntrypointSize: 4000000,
+  //   maxAssetSize: 4000000,
+  // },
   // devtool: 'source-map',
   optimization: {
     // 告知 webpack 使用 TerserPlugin 压缩 bundle。
