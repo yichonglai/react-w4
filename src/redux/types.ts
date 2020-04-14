@@ -16,3 +16,16 @@ export interface IModel<S = any, A = IAction> {
   effects: { [effect: string]: Saga<[A, typeof effects]> },
   reducers: { [reducer: string]: IReducer<S> }
 }
+
+/**
+ * redux state tree
+ */
+export interface ReduxState {
+  global: {
+    count: number;
+    platformName: string;
+  },
+  demo: {
+    list: number[];
+  }
+}

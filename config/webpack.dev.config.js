@@ -19,7 +19,7 @@ module.exports = merge(common, {
     hot: true,
     historyApiFallback: true,
     publicPath: ENV_CONFIG.publicPath,
-    open: true,
+    // open: true,
   },
   module: {
     rules: [

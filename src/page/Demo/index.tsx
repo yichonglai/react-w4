@@ -1,6 +1,7 @@
 import { DispatchProp, connect } from 'react-redux';
+
 import React from 'react';
-import { IState } from './model';
+import { ReduxState } from '@redux/types';
 
 interface IProps {
   list: number[];
@@ -22,7 +23,7 @@ class Demo extends React.PureComponent<IProps & DispatchProp> {
   }
 }
 
-const mapStateToProps: (state: { demo: IState }) => IProps = state => {
+const mapStateToProps: (state: ReduxState) => IProps = state => {
   return {
     list: state.demo.list
   };

@@ -1,12 +1,6 @@
-import { IModel } from './types';
+import { IModel, ReduxState } from './types';
 
-/**类型定义 */
-export interface IState {
-  count: number;
-  platformName: string;
-}
-
-const model: IModel<IState> = {
+const model: IModel<ReduxState['global']> = {
   namespace: 'global',
   state: {
     count: 0,

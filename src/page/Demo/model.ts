@@ -1,14 +1,9 @@
-import { IModel } from '@redux/types';
+import { IModel, ReduxState } from '@redux/types';
 
-/**类型定义 */
-export interface IState {
-  list: number[];
-}
-
-const model: IModel<IState> = {
+const model: IModel<ReduxState['demo']> = {
   namespace: 'demo',
   state: {
-    list: []
+    list: [1]
   },
   effects: {
     *push_async({ payload }, { delay, put }) {
