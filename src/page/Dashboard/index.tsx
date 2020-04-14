@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import style from './index.less';
 
-interface IProps { };
-interface IState { };
 function Dashboard() {
   return (
     <div className={style.normal}>

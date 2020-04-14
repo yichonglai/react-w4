@@ -24,21 +24,26 @@ const makeEffect = (type: string, payload: { channel?: PuttableChannel<AnyAction
  * @param initState 
  * @param namespace
  */
-export const mergeReducers = <S = any, A extends AnyAction = IAction>(reducers: IModel<S, A>['reducers'], initState: IModel<S, A>['state'], namespace: IModel<S, A>['namespace']): IReducer<S, A> => {
-  return (state = initState, action: IAction) => {
+export const mergeReducers = <S = any, A extends AnyAction = IAction>(reducers: IModel<S, A>['reducers'] = {}, initState: IModel<S, A>['state'], namespace: IModel<S, A>['namespace']): IReducer<S, A> => {
+  return (state = { ...initState, loading: {} }, action: IAction) => {
     const actualReducers: IModel['reducers'] = {};
     Object.keys(reducers).forEach(key => {
       actualReducers[`${namespace}/${key}`] = reducers[key];
     });
+    // effects loading reducer
+    console.log(action);
+
+    actualReducers[`${namespace}/@@loadingStart`] = (state, action) => ({ ...state, loading: { ...state.loading, [action.payload]: true } });
+    actualReducers[`${namespace}/@@loadingEnd`] = (state, action) => ({ ...state, loading: { ...state.loading, [action.payload]: false } });
     return actualReducers[action.type] ? actualReducers[action.type](state, action) : state;
   }
 }
 /**
- * 合并sagas model内调用put问题
+ * 合并sagas model内调用put问题 TODO:put方法优化
  * @param effects 
  * @param namespace
  */
-export const mergeSagas = (effects: IModel['effects'], namespace: IModel['namespace']) => {
+export const mergeSagas = (effects: IModel['effects'] = {}, namespace: IModel['namespace']) => {
   const put: any = function () {
     let channel = arguments[0];
     let action = arguments[1];
@@ -55,7 +60,14 @@ export const mergeSagas = (effects: IModel['effects'], namespace: IModel['namesp
     const effectKeys = Object.keys(effects);
     for (let i = 0, len = effectKeys.length; i < len; i++) {
       function* worker(action: AnyAction) {
-        yield effectsFactory.fork(effects[effectKeys[i]], action, { ...effectsFactory, put });
+        // yield effectsFactory.fork(effects[effectKeys[i]], action, { ...effectsFactory, put });
+        try {
+          effectsFactory.put({ type: `${namespace}@@loadingStart`, payload: effectKeys[i] });
+          yield effectsFactory.call(effects[effectKeys[i]], action, { ...effectsFactory, put });
+          effectsFactory.put({ type: `${namespace}/@@loadingEnd`, payload: effectKeys[i] });
+        } catch (error) {
+          effectsFactory.put({ type: `${namespace}/@@loadingEnd`, payload: effectKeys[i] });
+        }
       }
       yield effectsFactory.takeEvery(`${namespace}/${effectKeys[i]}`, worker);
     }
@@ -73,4 +85,4 @@ export const injectReducerFactory = (store: IStore) => (key: string, reducer: Re
   store.replaceReducer(combineReducers(store.asyncReducer));
 }
 
-// 参考Api：redux --> redux-saga --> dva --> Yep ； vue-router路由配置格式：配置型路由； electron：工作需要
+// 参考Api：redux --> redux-saga --> dva --> Yep 

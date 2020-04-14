@@ -24,7 +24,7 @@ const lazyConstructor = (pageName: string) => lazy(() => {
     if (res[1]) {
       const temModel = res[1].default || res[1];
       // 默认命名空间 pageName
-      (!temModel.namespace || temModel.namespace.trim()) ? false : (temModel.namespace = pageName);
+      (!temModel.namespace || !temModel.namespace.trim()) ? (temModel.namespace = pageName) : false;
       asyncModel(temModel)
     }
     return res[0];

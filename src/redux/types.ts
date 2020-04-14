@@ -10,22 +10,28 @@ export type IReducer<S = any, A = IAction> = (
   state: S,
   action: A
 ) => S
+export interface IdefaultState {
+  loading?: { [key: string]: boolean }
+}
 export interface IModel<S = any, A = IAction> {
   namespace: string;
   state: S;
-  effects: { [effect: string]: Saga<[A, typeof effects]> },
-  reducers: { [reducer: string]: IReducer<S> }
+  effects?: { [effect: string]: Saga<[A, typeof effects]> },
+  reducers?: { [reducer: string]: IReducer<S> }
 }
 
 /**
  * redux state tree
  */
-export interface ReduxState {
-  global: {
+export interface ReduxState<S extends IdefaultState = IdefaultState> {
+  global: S & {
     count: number;
     platformName: string;
   },
-  demo: {
+  demo: S & {
     list: number[];
+  },
+  dashboard: S & {
+    data: number[];
   }
 }
