@@ -59,7 +59,6 @@ export const mergeSagas = (effects: IModel['effects'] = {}, namespace: IModel['n
     for (let i = 0, len = effectKeys.length; i < len; i++) {
       const effectItem = effects[effectKeys[i]];
       function* worker(action: AnyAction) {
-        // yield effectsFactory.fork(effects[effectKeys[i]], action, { ...effectsFactory, put });
         if (typeof effectItem === 'function') {
           yield effectsFactory.call(effectItem, action, { ...effectsFactory, put });
         } else if (typeof effectItem === 'object') {

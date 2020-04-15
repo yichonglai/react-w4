@@ -1,6 +1,6 @@
-import { IModel, ReduxState } from './types';
+import { IModel, RootState } from './types';
 
-const model: IModel<ReduxState['global']> = {
+const model: IModel<RootState['global']> = {
   namespace: 'global',
   state: {
     count: 0,

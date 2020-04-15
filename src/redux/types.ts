@@ -14,7 +14,7 @@ export interface IdefaultState {
   loading?: { [key: string]: boolean }
 }
 export type IeffectType = 'takeEvery' | 'takeLeading' | 'takeLatest' | 'throttle';
-export type Ieffect<A = IAction, E = typeof effects> =  {
+export type Ieffect<A = IAction, E = typeof effects> = {
   type?: IeffectType;
   /**throttle */
   ms?: number;
@@ -29,9 +29,9 @@ export interface IModel<S = any, A = IAction> {
 }
 
 /**
- * redux state tree
+ * root state tree
  */
-export interface ReduxState<S extends IdefaultState = IdefaultState> {
+export interface RootState<S extends IdefaultState = IdefaultState> {
   global: S & {
     count: number;
     platformName: string;

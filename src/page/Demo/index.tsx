@@ -1,7 +1,7 @@
 import { DispatchProp, connect } from 'react-redux';
 
 import React from 'react';
-import { ReduxState } from '@redux/types';
+import { RootState } from '@redux/types';
 
 interface IProps {
   list: number[];
@@ -10,7 +10,13 @@ class Demo extends React.PureComponent<IProps & DispatchProp> {
   increment = () => {
     const { dispatch } = this.props;
     // 需要一个action生成器 - action creator
-    const res = dispatch({ type: 'demo/async', payload: Math.floor(Math.random() * 100) });
+    const actionCreator = (payload: number) => {
+      return {
+        type: 'demo/async',
+        payload
+      }
+    }
+    const res = dispatch(actionCreator(Math.floor(Math.random() * 100)));
     console.log(res);
   }
   render() {
@@ -24,7 +30,7 @@ class Demo extends React.PureComponent<IProps & DispatchProp> {
   }
 }
 
-const mapStateToProps: (state: ReduxState) => IProps = state => {
+const mapStateToProps: (state: RootState) => IProps = state => {
   return {
     list: state.demo.list
   };

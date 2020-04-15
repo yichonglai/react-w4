@@ -1,6 +1,6 @@
-import { IModel, ReduxState } from '@redux/types';
+import { IModel, RootState } from '@redux/types';
 
-const model: IModel<ReduxState['demo']> = {
+const model: IModel<RootState['demo']> = {
   namespace: 'demo',
   state: {
     list: [1]
