@@ -1,7 +1,7 @@
 import * as effectsFactory from 'redux-saga/effects';
 
-import { AnyAction, Reducer, combineReducers } from 'redux';
-import { IAction, IModel, IReducer, IStore } from './types';
+import { AnyAction, Dispatch, Reducer, combineReducers } from 'redux';
+import { IAction, IModel, IReducer, IStore, IeffectType } from './types';
 
 import { IO } from '@redux-saga/symbols'
 import { PuttableChannel } from 'redux-saga';
@@ -25,16 +25,14 @@ const makeEffect = (type: string, payload: { channel?: PuttableChannel<AnyAction
  * @param namespace
  */
 export const mergeReducers = <S = any, A extends AnyAction = IAction>(reducers: IModel<S, A>['reducers'] = {}, initState: IModel<S, A>['state'], namespace: IModel<S, A>['namespace']): IReducer<S, A> => {
-  return (state = { ...initState, loading: {} }, action: IAction) => {
+  return (state = initState, action: IAction) => {
     const actualReducers: IModel['reducers'] = {};
     Object.keys(reducers).forEach(key => {
       actualReducers[`${namespace}/${key}`] = reducers[key];
     });
     // effects loading reducer
-    console.log(action);
-
-    actualReducers[`${namespace}/@@loadingStart`] = (state, action) => ({ ...state, loading: { ...state.loading, [action.payload]: true } });
-    actualReducers[`${namespace}/@@loadingEnd`] = (state, action) => ({ ...state, loading: { ...state.loading, [action.payload]: false } });
+    actualReducers[`${namespace}/@@start`] = (state, action) => ({ ...state, loading: { ...state.loading, [action.payload]: true } });
+    actualReducers[`${namespace}/@@end`] = (state, action) => ({ ...state, loading: { ...state.loading, [action.payload]: false } });
     return actualReducers[action.type] ? actualReducers[action.type](state, action) : state;
   }
 }
@@ -59,17 +57,41 @@ export const mergeSagas = (effects: IModel['effects'] = {}, namespace: IModel['n
   function* rootSaga() {
     const effectKeys = Object.keys(effects);
     for (let i = 0, len = effectKeys.length; i < len; i++) {
+      const effectItem = effects[effectKeys[i]];
       function* worker(action: AnyAction) {
         // yield effectsFactory.fork(effects[effectKeys[i]], action, { ...effectsFactory, put });
-        try {
-          effectsFactory.put({ type: `${namespace}@@loadingStart`, payload: effectKeys[i] });
-          yield effectsFactory.call(effects[effectKeys[i]], action, { ...effectsFactory, put });
-          effectsFactory.put({ type: `${namespace}/@@loadingEnd`, payload: effectKeys[i] });
-        } catch (error) {
-          effectsFactory.put({ type: `${namespace}/@@loadingEnd`, payload: effectKeys[i] });
+        if (typeof effectItem === 'function') {
+          yield effectsFactory.call(effectItem, action, { ...effectsFactory, put });
+        } else if (typeof effectItem === 'object') {
+          const { loading = false } = effectItem;
+          if (loading) {
+            let loadingKey = effectKeys[i];
+            if (typeof loading === 'string') {
+              loadingKey = loading
+            }
+            try {
+              yield effectsFactory.put({ type: `${namespace}/@@start`, payload: loadingKey });
+              yield effectsFactory.call(effectItem.worker, action, { ...effectsFactory, put });
+              yield effectsFactory.put({ type: `${namespace}/@@end`, payload: loadingKey });
+            } catch (error) {
+              yield effectsFactory.put({ type: `${namespace}/@@end`, payload: loadingKey });
+            }
+          } else {
+            yield effectsFactory.call(effectItem.worker, action, { ...effectsFactory, put });
+          }
         }
       }
-      yield effectsFactory.takeEvery(`${namespace}/${effectKeys[i]}`, worker);
+      let effectType: IeffectType = 'takeEvery';
+      let ms = 0;
+      if (typeof effectItem === 'object' && effectItem.type) {
+        effectType = effectItem.type;
+        ms = effectItem.ms || 0;
+      }
+      if (effectType === 'throttle') {
+        yield effectsFactory[effectType](ms, `${namespace}/${effectKeys[i]}`, worker);
+      } else {
+        yield effectsFactory[effectType](`${namespace}/${effectKeys[i]}`, worker);
+      }
     }
   }
   return rootSaga;

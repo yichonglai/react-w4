@@ -13,10 +13,18 @@ export type IReducer<S = any, A = IAction> = (
 export interface IdefaultState {
   loading?: { [key: string]: boolean }
 }
+export type IeffectType = 'takeEvery' | 'takeLeading' | 'takeLatest' | 'throttle';
+export type Ieffect<A = IAction, E = typeof effects> =  {
+  type?: IeffectType;
+  /**throttle */
+  ms?: number;
+  loading?: string | boolean;
+  worker: Saga<[A, E]>
+} | Saga<[A, E]>
 export interface IModel<S = any, A = IAction> {
   namespace: string;
   state: S;
-  effects?: { [effect: string]: Saga<[A, typeof effects]> },
+  effects?: { [effect: string]: Ieffect<A> },
   reducers?: { [reducer: string]: IReducer<S> }
 }
 

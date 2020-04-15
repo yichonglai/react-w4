@@ -6,13 +6,20 @@ const model: IModel<ReduxState['demo']> = {
     list: [1]
   },
   effects: {
+    async: {
+      loading: 'wwwww',
+      *worker({ payload }, { delay, put }) {
+        yield delay(1000);
+        yield put({ type: 'save', payload })
+      }
+    },
     *push_async({ payload }, { delay, put }) {
-      yield delay(500);
-      yield put({ type: 'push', payload })
+      yield delay(1000);
+      // yield put({ type: 'save', payload })
     }
   },
   reducers: {
-    push(state, { payload }) {
+    save(state, { payload }) {
       return { ...state, list: [...state.list, payload] };
     },
   }
