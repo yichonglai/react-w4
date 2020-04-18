@@ -6,6 +6,16 @@ const model: IModel<RootState['dashboard']> = {
   state: {
     data: [1, 2, 34]
   },
+  effects: {
+    *change(_, { put }) {
+      yield put({ type: 'save' })
+    }
+  },
+  reducers: {
+    save(state) {
+      return { ...state, data: [1] };
+    }
+  }
 }
 
 export default model;

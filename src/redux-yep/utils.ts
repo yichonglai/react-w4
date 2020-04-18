@@ -19,7 +19,7 @@ const makeEffect = (type: string, payload: { channel?: PuttableChannel<AnyAction
   payload,
 })
 /**
- * 合并reducers
+ * merge reducers
  * @param reducers 
  * @param initState 
  * @param namespace
@@ -37,7 +37,7 @@ export const mergeReducers = <S = any, A extends AnyAction = IAction>(reducers: 
   }
 }
 /**
- * 合并sagas model内调用put问题 TODO:put方法优化
+ * merge sagas model内调用put问题 TODO:put方法优化
  * @param effects 
  * @param namespace
  */
@@ -58,7 +58,7 @@ export const mergeSagas = (effects: IModel['effects'] = {}, namespace: IModel['n
     const effectKeys = Object.keys(effects);
     for (let i = 0, len = effectKeys.length; i < len; i++) {
       const effectItem = effects[effectKeys[i]];
-      const worker = function*(action: AnyAction) {
+      const worker = function* (action: AnyAction) {
         if (typeof effectItem === 'function') {
           yield effectsFactory.call(effectItem, action, { ...effectsFactory, put });
         } else if (typeof effectItem === 'object') {
@@ -99,11 +99,22 @@ export const mergeSagas = (effects: IModel['effects'] = {}, namespace: IModel['n
  * 注入异步reducer
  * @param store 
  */
-export const injectReducerFactory = (store: IStore) => (key: string, reducer: Reducer) => {
+export const injectReducerFactory = (store: IStore) => (namespace: string, reducer: Reducer) => {
   if (!store.asyncReducer) store.asyncReducer = {};
-  if (Reflect.has(store.asyncReducer, key) && store.asyncReducer[key] === reducer) return;
-  store.asyncReducer[key] = reducer;
+  if (Reflect.has(store.asyncReducer, namespace) && store.asyncReducer[namespace] === reducer) return;
+  store.asyncReducer[namespace] = reducer;
   store.replaceReducer(combineReducers(store.asyncReducer));
 }
 
-// 参考Api：redux --> redux-saga --> dva --> Yep 
+/**
+ * 卸载reducer
+ * @param store 
+ */
+export const removeReducerFactory = (store: IStore) => (namespace: string) => {
+  if (store.asyncReducer && Reflect.has(store.asyncReducer, namespace)) {
+    delete store.asyncReducer[namespace];
+    store.replaceReducer(combineReducers(store.asyncReducer));
+  }
+}
+
+// 参考Api：redux --> redux-saga --> vuex --> Yep 

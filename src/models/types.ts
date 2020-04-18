@@ -1,8 +1,8 @@
-import { IdefaultState } from '@yep/index';
+import { Istate } from '@yep/index';
 /**
  * root state tree
  */
-export interface RootState<S extends IdefaultState = IdefaultState> {
+export interface RootState<S = Istate> {
   global: S & {
     count: number;
     platformName: string;

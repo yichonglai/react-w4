@@ -10,9 +10,6 @@ export type IReducer<S = any, A = IAction> = (
   state: S,
   action: A
 ) => S
-export interface IdefaultState {
-  loading?: { [key: string]: boolean }
-}
 export type IeffectType = 'takeEvery' | 'takeLeading' | 'takeLatest' | 'throttle';
 export type Ieffect<A = IAction, E = typeof effects> = {
   type?: IeffectType;
@@ -21,6 +18,9 @@ export type Ieffect<A = IAction, E = typeof effects> = {
   loading?: string | boolean;
   worker: Saga<[A, E]>
 } | Saga<[A, E]>
+export interface Istate {
+  loading?: { [key: string]: boolean }
+}
 export interface IModel<S = any, A = IAction> {
   namespace: string;
   state: S;

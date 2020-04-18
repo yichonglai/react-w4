@@ -1,6 +1,6 @@
 {
   "name": "redux-yep",
-  "version": "0.0.5-beta",
+  "version": "0.0.6",
   "description": "A state management pattern for react applications",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.js",
