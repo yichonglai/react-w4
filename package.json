@@ -1,9 +1,12 @@
 {
   "name": "redux-yep",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.js",
+  "files": [
+    "./lib"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.config.js --progress --display-modules",
