@@ -1,0 +1,34 @@
+{
+  "name": "redux-yep",
+  "version": "0.0.5-beta",
+  "description": "A state management pattern for react applications",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.js",
+  "files": [
+    "lib",
+    "*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yichonglai/react-w4/tree/redux-yep"
+  },
+  "bugs": {
+    "url": "https://github.com/yichonglai/react-w4/issues"
+  },
+  "homepage": "https://github.com/yichonglai/react-w4/tree/redux-yep#readme",
+  "keywords": [
+    "redux",
+    "redux-yep",
+    "yep",
+    "react",
+    "flux",
+    "redux-saga"
+  ],
+  "author": "ClauseYi",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.11.0",
+    "redux": "^4.0.5",
+    "redux-saga": "^1.1.3"
+  }
+}

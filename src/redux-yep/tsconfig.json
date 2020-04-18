@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../lib",
+    "outDir": "../../lib/lib",
     "noImplicitAny": false, // 在表达式和声明上有隐含的 any类型时报错。
     "target": "es5", // 指定ECMAScript目标版本 "ES3"（默认）
     "lib": [

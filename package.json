@@ -1,6 +1,6 @@
 {
   "name": "redux-yep",
-  "version": "0.0.3",
+  "version": "0.0.3-beta",
   "description": "",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.js",
@@ -11,10 +11,26 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.config.js --progress --display-modules",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.pro.config.js --progress",
-    "build1": "webpack --config ./config/webpack.pro.config.js",
-    "package": "tsc -p ./src/redux-yep"
+    "build1": "cross-env NODE_ENV=production webpack --config ./config/webpack.pro.config.js --progress",
+    "build": "tsc -p ./src/redux-yep && cp ./src/redux-yep/package.json ./lib && cp ./README.md ./lib",
+    "release": "npm publish ./lib"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yichonglai/react-w4/tree/redux-yep"
+  },
+  "bugs": {
+    "url": "https://github.com/yichonglai/react-w4/issues"
+  },
+  "homepage": "https://github.com/yichonglai/react-w4/tree/redux-yep#readme",
+  "keywords": [
+    "redux",
+    "redux-yep",
+    "yep",
+    "react",
+    "flux",
+    "redux-saga"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
