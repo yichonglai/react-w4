@@ -1,6 +1,6 @@
 import * as effectsFactory from 'redux-saga/effects';
 
-import { AnyAction, Dispatch, Reducer, combineReducers } from 'redux';
+import { AnyAction, Reducer, combineReducers } from 'redux';
 import { IAction, IModel, IReducer, IStore, IeffectType } from './types';
 
 import { IO } from '@redux-saga/symbols'
@@ -58,7 +58,7 @@ export const mergeSagas = (effects: IModel['effects'] = {}, namespace: IModel['n
     const effectKeys = Object.keys(effects);
     for (let i = 0, len = effectKeys.length; i < len; i++) {
       const effectItem = effects[effectKeys[i]];
-      function* worker(action: AnyAction) {
+      const worker = function*(action: AnyAction) {
         if (typeof effectItem === 'function') {
           yield effectsFactory.call(effectItem, action, { ...effectsFactory, put });
         } else if (typeof effectItem === 'object') {

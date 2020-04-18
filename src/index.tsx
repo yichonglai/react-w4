@@ -1,10 +1,11 @@
 import '@assets/styles/reset.less';
 
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from '@router/index';
-import store from '@redux/index';
+import { register } from '@yep/index';
+import globalModel from '@models/global';
 
 // if (module.hot) {
 //   module.hot.accept('router', () => {
@@ -13,4 +14,4 @@ import store from '@redux/index';
 //   });
 // }
 
-ReactDOM.render(<Provider store={store}><Router /></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store={register(globalModel).store}><Router /></Provider>, document.getElementById('root'));

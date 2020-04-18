@@ -3,11 +3,11 @@ import React, { Suspense } from 'react';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import history from './history';
-import lazyConstructor from '@redux/lazyConstructor';
+import { lazy } from '@yep/index';
 
-const Dashboard = lazyConstructor('Dashboard');
-const Demo = lazyConstructor('Demo');
-const NotFound = lazyConstructor('NotFound');
+const Dashboard = lazy('Dashboard');
+const Demo = lazy('Demo');
+const NotFound = lazy('NotFound');
 const router = () => {
   return (
     <Router history={history}>

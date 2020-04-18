@@ -1,7 +1,7 @@
 import { DispatchProp, connect } from 'react-redux';
 
 import React from 'react';
-import { RootState } from '@redux/types';
+import { RootState } from '@models/types';
 
 interface IProps {
   list: number[];
@@ -17,7 +17,6 @@ class Demo extends React.PureComponent<IProps & DispatchProp> {
       }
     }
     const res = dispatch(actionCreator(Math.floor(Math.random() * 100)));
-    console.log(res);
   }
   render() {
     const { list } = this.props;

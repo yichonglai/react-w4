@@ -1,4 +1,5 @@
-import { IModel, RootState } from './types';
+import { RootState } from './types';
+import { IModel } from '@yep/index';
 
 const model: IModel<RootState['global']> = {
   namespace: 'global',

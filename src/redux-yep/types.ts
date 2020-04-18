@@ -27,19 +27,3 @@ export interface IModel<S = any, A = IAction> {
   effects?: { [effect: string]: Ieffect<A> },
   reducers?: { [reducer: string]: IReducer<S> }
 }
-
-/**
- * root state tree
- */
-export interface RootState<S extends IdefaultState = IdefaultState> {
-  global: S & {
-    count: number;
-    platformName: string;
-  },
-  demo: S & {
-    list: number[];
-  },
-  dashboard: S & {
-    data: number[];
-  }
-}

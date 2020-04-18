@@ -1,19 +1,22 @@
 {
-  "name": "babel",
-  "version": "1.0.0",
+  "name": "redux-yep",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.config.js --progress --display-modules",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.pro.config.js --progress",
-    "build1": "webpack --config ./config/webpack.pro.config.js"
+    "build1": "webpack --config ./config/webpack.pro.config.js",
+    "package": "tsc -p ./src/redux-yep"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.8.3",
     "@babel/plugin-transform-react-jsx-source": "^7.5.0",
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.7.0",

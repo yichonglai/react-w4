@@ -1,4 +1,5 @@
-import { IModel, RootState } from '@redux/types';
+import { IModel } from '@yep/index';
+import { RootState } from '@models/types';
 
 const model: IModel<RootState['demo']> = {
   namespace: 'demo',
