@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from '@router/index';
-import { register } from '@yep/index';
+import { register } from 'redux-yep';
 import globalModel from '@models/global';
 
 // if (module.hot) {

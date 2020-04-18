@@ -1,4 +1,4 @@
-import { IModel } from '@yep/index';
+import { IModel } from 'redux-yep';
 import { RootState } from '@models/types';
 
 const model: IModel<RootState['demo']> = {

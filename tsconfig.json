@@ -41,9 +41,6 @@
       "@utils/*": [
         "./src/utils/*"
       ],
-      "@yep/*": [
-        "./src/redux-yep/*"
-      ],
       "@models/*": [
         "./src/models/*"
       ],

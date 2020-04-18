@@ -1,5 +1,5 @@
 import { RootState } from './types';
-import { IModel } from '@yep/index';
+import { IModel } from 'redux-yep';
 
 const model: IModel<RootState['global']> = {
   namespace: 'global',

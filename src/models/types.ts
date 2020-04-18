@@ -1,4 +1,4 @@
-import { IdefaultState } from '@yep/index';
+import { IdefaultState } from 'redux-yep';
 /**
  * root state tree
  */
